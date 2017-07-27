@@ -89,20 +89,19 @@ for c in variance.keys():
 	for m in sometimesIbreakThings.keys():
 		if c in sometimesIbreakThings[m][1]:
 			if len(sometimesIbreakThings[m][1]) > 2:
-				row.append(manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-					","+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-					","+manufact[0]+","+sometimesIbreakThings[m][1][1]+","+sometimesIbreakThings[m][2]+
-					","+m+","+sometimesIbreakThings[m][3]+","+sometimesIbreakThings[m][4])
+				row.append("'"+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+					"','"+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+					"',"+manufact[0]+","+sometimesIbreakThings[m][1][1]+","+sometimesIbreakThings[m][2]+
+					","+m+","+sometimesIbreakThings[m][3]+","+sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
 			else:
-				row.append(manufact[0]+" "+sometimesIbreakThings[m][1][0]+","+sometimesIbreakThings[m][1][0]+
-					","+manufact[0]+","+sometimesIbreakThings[m][1][1]+
+				row.append(manufact[0]+" "+sometimesIbreakThings[m][1][0]+","+sometimesIbreakThings[m][1][0]+","+manufact[0]+","+sometimesIbreakThings[m][1][1]+
 					","+sometimesIbreakThings[m][2]+","+m+","+sometimesIbreakThings[m][3]+
-					","+sometimesIbreakThings[m][4])
+					","+sometimesIbreakThings[m][4]+","+desc[0])
 
 # for c in sometimesIbreakThings.keys():
 	#print(c+" -> "+str(sometimesIbreakThings[c]))
 fh=open("test.xls","w+")
 for r in row:
-	print(r)
+	#print(r)
 	fh.write(r+"\n")
 fh.close()
