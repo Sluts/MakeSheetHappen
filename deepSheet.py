@@ -11,9 +11,9 @@ row=[]
 variance={}
 
 sometimesIbreakThings={}
-#url="https://www.macphersonart.com/product/137187/Artists-Watercolor.html"
+url="https://www.macphersonart.com/product/137187/Artists-Watercolor.html"
 #url='https://www.macphersonart.com/product/149250/Neon-Leather-Paint.html'
-url='https://www.macphersonart.com/product/132191/Artist-Bristle-Mottlers.html'
+#url='https://www.macphersonart.com/product/132191/Artist-Bristle-Mottlers.html'
 #url='https://www.macphersonart.com/product/146367/XL-Mix-Media-Pads.html'
 
 chop=re.findall(r'(.*?[c][o][m])[/]', url)
