@@ -1,16 +1,15 @@
 import urllib.request as ur
 import re
+
 names=[]
 skus=[]
 upcs=[]
 prices=[]
 images=[]
-
 row=[]
-
 variance={}
-
 sometimesIbreakThings={}
+
 url="https://www.macphersonart.com/product/137187/Artists-Watercolor.html"
 #url='https://www.macphersonart.com/product/149250/Neon-Leather-Paint.html'
 #url='https://www.macphersonart.com/product/132191/Artist-Bristle-Mottlers.html'
@@ -25,7 +24,8 @@ divs=re.findall(r'<div>(.*?)</div>', data)
 upc=re.findall(r'<div class="(.*?)</div>', data)
 desc=re.findall(r'<div class="prodDescription">(.*?)</div>', data)
 productName=re.findall(r'<div class="familyTitle">(.*?)</div>', data)
-manufact=re.findall(r'<a href=".*?">(.*?)</a>', data)
+manufact=re.findall(r'<div class=\"millDescription\">[ \n \v \r\n]*.*?>(.*?)</a>', data)
+
 
 for i in imgs:
 	src=re.findall(r'href="(.*?)"',i)
@@ -61,15 +61,12 @@ for u in upc:
 	else:
 		pass
 
-# for x in manufact:
-	# print(x)
-		
 for i in range(0,len(names)):
-	#upc -> ean/upc, name, sku, list price, image
+	#upc -> ean/upc, name, sku, list price, image, manufact
 	if len(images) >= 1:
-		sometimesIbreakThings[upcs[i][0]]=[upcs[i][1],names[i],skus[i], prices[i], images[i]]
+		sometimesIbreakThings[upcs[i][0]]=[upcs[i][1],names[i],skus[i], prices[i], images[i], manufact[0]]
 	else:
-		sometimesIbreakThings[upcs[i][0]]=[upcs[i][1],names[i],skus[i], prices[i], '']
+		sometimesIbreakThings[upcs[i][0]]=[upcs[i][1],names[i],skus[i], prices[i], '', manufact[0]]
 
 
 for k in sometimesIbreakThings.keys():
@@ -92,16 +89,18 @@ for c in variance.keys():
 	for m in sometimesIbreakThings.keys():
 		if c in sometimesIbreakThings[m][1]:
 			if len(sometimesIbreakThings[m][1]) > 2:
-				row.append(sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-					","+sometimesIbreakThings[m][1][1]+","+sometimesIbreakThings[m][2]+
+				row.append(manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+					","+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+					","+manufact[0]+","+sometimesIbreakThings[m][1][1]+","+sometimesIbreakThings[m][2]+
 					","+m+","+sometimesIbreakThings[m][3]+","+sometimesIbreakThings[m][4])
 			else:
-				row.append(sometimesIbreakThings[m][1][0]+","+sometimesIbreakThings[m][1][1]+
+				row.append(manufact[0]+" "+sometimesIbreakThings[m][1][0]+","+sometimesIbreakThings[m][1][0]+
+					","+manufact[0]+","+sometimesIbreakThings[m][1][1]+
 					","+sometimesIbreakThings[m][2]+","+m+","+sometimesIbreakThings[m][3]+
 					","+sometimesIbreakThings[m][4])
 
 # for c in sometimesIbreakThings.keys():
-	# print(c+" -> "+str(sometimesIbreakThings[c]))
+	#print(c+" -> "+str(sometimesIbreakThings[c]))
 fh=open("test.xls","w+")
 for r in row:
 	print(r)
