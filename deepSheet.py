@@ -10,8 +10,8 @@ row=[]
 variance={}
 sometimesIbreakThings={}
 
-url="https://www.macphersonart.com/product/137187/Artists-Watercolor.html"
-#url='https://www.macphersonart.com/product/149250/Neon-Leather-Paint.html'
+#url="https://www.macphersonart.com/product/137187/Artists-Watercolor.html"
+url='https://www.macphersonart.com/product/149250/Neon-Leather-Paint.html'
 #url='https://www.macphersonart.com/product/132191/Artist-Bristle-Mottlers.html'
 #url='https://www.macphersonart.com/product/146367/XL-Mix-Media-Pads.html'
 
@@ -71,37 +71,41 @@ for i in range(0,len(names)):
 
 for k in sometimesIbreakThings.keys():
 	if len(sometimesIbreakThings[k][1]) > 2:
-	#print(k+" -> "+str(sometimesIbreakThings[k])+"\n")
+		#print(k+" -> "+str(sometimesIbreakThings[k])+"\n")
 		if not sometimesIbreakThings[k][1][2] in variance:
 			variance[sometimesIbreakThings[k][1][2]]=[sometimesIbreakThings[k][1][1]]
 		else:
 			variance[sometimesIbreakThings[k][1][2]].append(sometimesIbreakThings[k][1][1])
 	else:
+		#print(k+" -> "+str(sometimesIbreakThings[k])+"\n")
 		if not sometimesIbreakThings[k][1][0] in variance:
 			variance[sometimesIbreakThings[k][1][0]]=[sometimesIbreakThings[k][1][1]]
 		else:
 			variance[sometimesIbreakThings[k][1][0]].append(sometimesIbreakThings[k][1][1])
 
-
+used=[]
 
 for c in variance.keys():
-	# print(c+" -> "+str(variance[c]))
+	#print(c+" -> "+str(variance[c]))
 	for m in sometimesIbreakThings.keys():
 		if c in sometimesIbreakThings[m][1]:
-			if len(sometimesIbreakThings[m][1]) > 2:
-				row.append("'"+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-					"','"+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-					"',"+manufact[0]+","+sometimesIbreakThings[m][1][1]+","+sometimesIbreakThings[m][2]+
-					","+m+","+sometimesIbreakThings[m][3]+","+sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
+			if not m in used:
+				used.append(m)
+				if len(sometimesIbreakThings[m][1]) > 2:
+					row.append("'"+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+						"','"+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+						"',"+manufact[0]+","+sometimesIbreakThings[m][1][1]+","+sometimesIbreakThings[m][2]+
+						","+m+","+sometimesIbreakThings[m][3]+","+sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
+				else:
+					row.append(manufact[0]+" "+sometimesIbreakThings[m][1][0]+","+sometimesIbreakThings[m][1][0]+","+manufact[0]+","+sometimesIbreakThings[m][1][1]+
+						","+sometimesIbreakThings[m][2]+","+m+","+sometimesIbreakThings[m][3]+
+						","+sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
 			else:
-				row.append(manufact[0]+" "+sometimesIbreakThings[m][1][0]+","+sometimesIbreakThings[m][1][0]+","+manufact[0]+","+sometimesIbreakThings[m][1][1]+
-					","+sometimesIbreakThings[m][2]+","+m+","+sometimesIbreakThings[m][3]+
-					","+sometimesIbreakThings[m][4]+","+desc[0])
-
+				pass
 # for c in sometimesIbreakThings.keys():
 	#print(c+" -> "+str(sometimesIbreakThings[c]))
 fh=open("test.xls","w+")
 for r in row:
-	#print(r)
+	#print(r+"\n")
 	fh.write(r+"\n")
 fh.close()
