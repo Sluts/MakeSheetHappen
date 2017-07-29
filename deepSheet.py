@@ -142,7 +142,6 @@ def browse():
 	entry2var.set(selectedDirectory.get())
 	
 sheet=Tk()
-sheet.iconbitmap(sheet, default="idk.ico")
 sheet.wm_title("You're in Deep Sheet")
 entryvar=StringVar()
 entry2var=StringVar()
