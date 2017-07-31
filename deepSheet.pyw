@@ -132,7 +132,7 @@ def engine(url, save, op):
 							row.append("'"+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
 								"','"+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
 								"',"+manufact[0]+","+sometimesIbreakThings[m][1][1]+","+sometimesIbreakThings[m][2]+
-								","+m+","+sometimesIbreakThings[m][3]+","+str(save)+"/"+str(manufact[0])+"/images/"+
+								","+m+","+sometimesIbreakThings[m][3]+","+str(save)+"/"+str(productName[0])+"/images/"+
 								sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
 					else:
 						if sometimesIbreakThings[m][4]== ' ':							
@@ -144,7 +144,7 @@ def engine(url, save, op):
 							row.append(manufact[0]+" "+sometimesIbreakThings[m][1][0]+","+sometimesIbreakThings[m][1][0]+
 								","+manufact[0]+","+sometimesIbreakThings[m][1][1]+
 								","+sometimesIbreakThings[m][2]+","+m+","+sometimesIbreakThings[m][3]+
-								","+str(save)+"/"+str(manufact[0])+"/images/"+
+								","+str(save)+"/"+str(productName[0])+"/images/"+
 								sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
 				else:
 					pass
