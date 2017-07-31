@@ -4,6 +4,8 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 import os
+from shutil import copyfile
+
 names=[]
 skus=[]
 upcs=[]
@@ -46,10 +48,11 @@ def engine(url, save, op):
 			if "catimg" in s:
 				if 'png' in s:
 					try:
-						images.append(s[14:])
+						images.append(s[14:-3]+"jpg")
 						if op:
 							#print(str(chop[0])+str(s))
 							ur.urlretrieve(str(chop[0])+str(s), str(save)+"/"+str(manufact[0])+"/images/"+s[14:])
+							copyfile(str(save)+"/"+str(manufact[0])+"/images/"+s[14:],str(save)+"/"+str(manufact[0])+"/images/"+s[14:-3]+"jpg")
 					except Exception as e:
 						print(str(e))
 				if 'jpg' in s:
