@@ -33,12 +33,12 @@ def engine(url, save, op):
 	manufact=re.findall(r'<div class=\"millDescription\">[ \n \v \r\n]*.*?>(.*?)</a>', data)
 	mainimgs=[]
 	
-	labelfin['text']="Ready?"
+	labelfin['text']="Working..."
 	
-	if not os.path.exists(str(save)+"/"+str(manufact[0])+"/images"):
+	if not os.path.exists(str(save)+"/"+str(productName[0])+"/images"):
 		try:
-			os.mkdir(str(save)+"/"+str(manufact[0]))
-			os.mkdir(str(save)+"/"+str(manufact[0])+"/images")
+			os.mkdir(str(save)+"/"+str(productName[0]))
+			os.mkdir(str(save)+"/"+str(productName[0])+"/images")
 		except Exception as e:
 			print(str(e))
 			
@@ -51,8 +51,8 @@ def engine(url, save, op):
 						images.append(s[14:-3]+"jpg")
 						if op:
 							#print(str(chop[0])+str(s))
-							ur.urlretrieve(str(chop[0])+str(s), str(save)+"/"+str(manufact[0])+"/images/"+s[14:])
-							copyfile(str(save)+"/"+str(manufact[0])+"/images/"+s[14:],str(save)+"/"+str(manufact[0])+"/images/"+s[14:-3]+"jpg")
+							ur.urlretrieve(str(chop[0])+str(s), str(save)+"/"+str(productName[0])+"/images/"+s[14:])
+							copyfile(str(save)+"/"+str(productName[0])+"/images/"+s[14:],str(save)+"/"+str(productName[0])+"/images/"+s[14:-3]+"jpg")
 					except Exception as e:
 						print(str(e))
 				if 'jpg' in s:
@@ -60,7 +60,7 @@ def engine(url, save, op):
 					#print(chop)
 					if op:
 						ur.urlretrieve(str(chop[0])+str(s.replace('&#46;', '.').replace('&#47;','/')), str(save)+
-							"/"+str(manufact[0])+"/images/"+s.replace('/','').replace('&#46;', '.').replace('&#47;','-'))
+							"/"+str(productName[0])+"/images/"+s.replace('/','').replace('&#46;', '.').replace('&#47;','-'))
 						#print(s.replace('&#46;', '.').replace('&#47;','/'))
 
 	for d in divs:
@@ -150,7 +150,7 @@ def engine(url, save, op):
 					pass
 	# for c in sometimesIbreakThings.keys():
 		#print(c+" -> "+str(sometimesIbreakThings[c]))
-	fh=open(str(save)+"/"+str(manufact[0])+"/"+str(manufact[0])+".xls","w+")
+	fh=open(str(save)+"/"+str(productName[0])+"/"+str(productName[0])+".xls","w+")
 	for r in row:
 		#print(r+"\n")
 		fh.write(r+"\n")
