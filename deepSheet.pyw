@@ -1,6 +1,7 @@
 import urllib.request as ur
 import re
 from tkinter import *
+from tkinter import ttk
 from tkinter import filedialog
 import os
 names=[]
@@ -54,9 +55,10 @@ def engine(url, save, op):
 				if 'jpg' in s:
 					mainimgs.append(s)
 					#print(chop)
-					ur.urlretrieve(str(chop[0])+str(s.replace('&#46;', '.').replace('&#47;','/')), str(save)+
-						"/"+str(manufact[0])+"/images/"+s.replace('/','').replace('&#46;', '.').replace('&#47;','-'))
-					#print(s.replace('&#46;', '.').replace('&#47;','/'))
+					if op:
+						ur.urlretrieve(str(chop[0])+str(s.replace('&#46;', '.').replace('&#47;','/')), str(save)+
+							"/"+str(manufact[0])+"/images/"+s.replace('/','').replace('&#46;', '.').replace('&#47;','-'))
+						#print(s.replace('&#46;', '.').replace('&#47;','/'))
 
 	for d in divs:
 		if "<br/>" in d:
@@ -79,14 +81,22 @@ def engine(url, save, op):
 		else:
 			pass
 
+	for i in range(0,len(names)):		
+		#sku -> ean/upc, name, upc, list price
+		sometimesIbreakThings[skus[i]]=[upcs[i][1], names[i], upcs[i][0], prices[i]]
+		
+	for sku in sometimesIbreakThings.keys():
+		for img in images:
+			if str(sku) in img:
+				sometimesIbreakThings[sku].append(img)
+				break
+				
 	for i in range(0,len(names)):
-		#upc -> ean/upc, name, sku, list price, image, manufact
-		if len(images) >= 1:
-			sometimesIbreakThings[upcs[i][0]]=[upcs[i][1],names[i],skus[i], prices[i], images[i], manufact[0]]
-		else:
-			sometimesIbreakThings[upcs[i][0]]=[upcs[i][1],names[i],skus[i], prices[i], '', manufact[0]]
-
-
+		if len(sometimesIbreakThings[skus[i]]) <= 4:
+			sometimesIbreakThings[skus[i]].append(' ')
+		sometimesIbreakThings[skus[i]].append(manufact[0])
+		
+		
 	for k in sometimesIbreakThings.keys():
 		if len(sometimesIbreakThings[k][1]) > 2:
 			#print(k+" -> "+str(sometimesIbreakThings[k])+"\n")
@@ -110,15 +120,29 @@ def engine(url, save, op):
 				if not m in used:
 					used.append(m)
 					if len(sometimesIbreakThings[m][1]) > 2:
-						row.append("'"+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-							"','"+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-							"',"+manufact[0]+","+sometimesIbreakThings[m][1][1]+","+sometimesIbreakThings[m][2]+
-							","+m+","+sometimesIbreakThings[m][3]+","+sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
+						if sometimesIbreakThings[m][4]== ' ':							
+							row.append("'"+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+								"','"+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+								"',"+manufact[0]+","+sometimesIbreakThings[m][1][1]+","+sometimesIbreakThings[m][2]+
+								","+m+","+sometimesIbreakThings[m][3]+","+sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
+						else:
+							row.append("'"+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+								"','"+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+								"',"+manufact[0]+","+sometimesIbreakThings[m][1][1]+","+sometimesIbreakThings[m][2]+
+								","+m+","+sometimesIbreakThings[m][3]+","+str(save)+"/"+str(manufact[0])+"/images/"+
+								sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
 					else:
-						row.append(manufact[0]+" "+sometimesIbreakThings[m][1][0]+","+sometimesIbreakThings[m][1][0]+
-							","+manufact[0]+","+sometimesIbreakThings[m][1][1]+
-							","+sometimesIbreakThings[m][2]+","+m+","+sometimesIbreakThings[m][3]+
-							","+sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
+						if sometimesIbreakThings[m][4]== ' ':							
+							row.append("'"+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+								"','"+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+								"',"+manufact[0]+","+sometimesIbreakThings[m][1][1]+","+sometimesIbreakThings[m][2]+
+								","+m+","+sometimesIbreakThings[m][3]+","+sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
+						else:
+							row.append(manufact[0]+" "+sometimesIbreakThings[m][1][0]+","+sometimesIbreakThings[m][1][0]+
+								","+manufact[0]+","+sometimesIbreakThings[m][1][1]+
+								","+sometimesIbreakThings[m][2]+","+m+","+sometimesIbreakThings[m][3]+
+								","+str(save)+"/"+str(manufact[0])+"/images/"+
+								sometimesIbreakThings[m][4]+",'"+desc[0]+"'")
 				else:
 					pass
 	# for c in sometimesIbreakThings.keys():
@@ -137,35 +161,36 @@ def done():
 def browse():
 	filename = filedialog.askdirectory(initialdir='.')
 	selectedDirectory.set(filename)
-	entry2=Entry(sheet, textvariable=entry2var, width=len(filename))
+	entry2=ttk.Entry(sheet, textvariable=entry2var, width=len(filename)+5)
 	entry2.grid(row=1, column=1)
 	entry2var.set(selectedDirectory.get())
 	
 sheet=Tk()
+#sheet.iconbitmap(sheet, default="idk.ico")
 sheet.wm_title("You're in Deep Sheet")
 entryvar=StringVar()
 entry2var=StringVar()
 selectedDirectory=StringVar()
 imagevar=IntVar()
 
-label=Label(sheet, text="URL")
+label=ttk.Label(sheet, text="URL")
 label.grid(row=0, column=0)
-entry=Entry(sheet, textvariable=entryvar)
-entry.grid(row=0, column=1)
-label2=Label(sheet, text="idk")
+entry=ttk.Entry(sheet, textvariable=entryvar, width=30)
+entry.grid(row=0, column=1, columnspan=2, sticky=W)
+label2=ttk.Label(sheet, text="idk")
 #label2.grid(row=1, column=0)
-button1=Button(sheet, text="Make Sheet", command=lambda:engine(entryvar.get(), entry2var.get(), imagevar.get()))
+button1=ttk.Button(sheet, text="Make Sheet", command=lambda:engine(entryvar.get(), entry2var.get(), imagevar.get()))
 button1.grid(row=4, column=2)
-button2=Button(sheet, text="browse", command=browse)
+button2=ttk.Button(sheet, text="browse", command=browse)
 button2.grid(row=1, column=0)
-label3=Label(sheet, text="Save images?")
+label3=ttk.Label(sheet, text="Save images?")
 label3.grid(row=3, column=0)
-radio=Radiobutton(sheet, variable=imagevar, text="yes", value=1)
+radio=ttk.Radiobutton(sheet, variable=imagevar, text="yes", value=1)
 radio.grid(row=3, column=1)
-radio2=Radiobutton(sheet, variable=imagevar, text="no", value=0)
+radio2=ttk.Radiobutton(sheet, variable=imagevar, text="no", value=0)
 radio2.grid(row=3, column=2)
-labelfin=Label(sheet, text="Ready?")
-labelfin.grid(row=4, column=0)
+labelfin=ttk.Label(sheet, text="Ready...")
+labelfin.grid(row=4, column=1)
 
 
 sheet.mainloop()
