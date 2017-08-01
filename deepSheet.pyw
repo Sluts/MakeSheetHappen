@@ -51,8 +51,8 @@ def engine(url, save, op):
 						images.append(s[14:-3]+"jpg")
 						if op:
 							#print(str(chop[0])+str(s))
-							ur.urlretrieve(str(chop[0])+str(s), str(save)+"/"+str(productName[0])+"/images/"+s[14:])
-							copyfile(str(save)+"/"+str(productName[0])+"/images/"+s[14:],str(save)+"/"+str(productName[0])+"/images/"+s[14:-3]+"jpg")
+							ur.urlretrieve(str(chop[0])+str(s), str(save)+"/"+str(productName[0])+"/images/"+s[14:-3]+"jpg")
+							#copyfile(str(save)+"/"+str(productName[0])+"/images/"+s[14:],str(save)+"/"+str(productName[0])+"/images/"+s[14:-3]+"jpg")
 					except Exception as e:
 						print(str(e))
 				if 'jpg' in s:
@@ -126,7 +126,7 @@ def engine(url, save, op):
 						if sometimesIbreakThings[m][4]== ' ':							
 							row.append('"'+manufact[0]+' '+sometimesIbreakThings[m][1][0]+' '+sometimesIbreakThings[m][1][2]+
 								'"\t"'+sometimesIbreakThings[m][1][0]+' '+sometimesIbreakThings[m][1][2]+
-								'"\t'+manufact[0]+","+sometimesIbreakThings[m][1][1]+"\t"+sometimesIbreakThings[m][2]+
+								'"\t'+manufact[0]+"\t"+sometimesIbreakThings[m][1][1]+"\t"+sometimesIbreakThings[m][2]+
 								"\t"+m+"\t"+sometimesIbreakThings[m][3]+'\t'+sometimesIbreakThings[m][4]+'\t"'+desc[0]+'"')
 						else:
 							row.append('"'+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
@@ -138,7 +138,7 @@ def engine(url, save, op):
 						if sometimesIbreakThings[m][4]== ' ':							
 							row.append('"'+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
 								'"\t"'+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-								'"\t'+manufact[0]+","+sometimesIbreakThings[m][1][1]+"\t"+sometimesIbreakThings[m][2]+
+								'"\t'+manufact[0]+"\t"+sometimesIbreakThings[m][1][1]+"\t"+sometimesIbreakThings[m][2]+
 								"\t"+m+"\t"+sometimesIbreakThings[m][3]+"\t"+sometimesIbreakThings[m][4]+'\t"'+desc[0]+'"')
 						else:
 							row.append('"'+manufact[0]+" "+sometimesIbreakThings[m][1][0]+'"\t'+sometimesIbreakThings[m][1][0]+
