@@ -129,7 +129,7 @@ def engine(url, save, op):
 								'"\t'+manufact[0]+","+sometimesIbreakThings[m][1][1]+"\t"+sometimesIbreakThings[m][2]+
 								"\t"+m+"\t"+sometimesIbreakThings[m][3]+'\t'+sometimesIbreakThings[m][4]+'\t"'+desc[0]+'"')
 						else:
-							row.append("'"+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
+							row.append('"'+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
 								'"\t"'+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
 								'"\t'+manufact[0]+"\t"+sometimesIbreakThings[m][1][1]+"\t"+sometimesIbreakThings[m][2]+
 								"\t"+m+"\t"+sometimesIbreakThings[m][3]+"\t"+str(save)+"/"+str(productName[0])+"/images/"+
@@ -141,7 +141,7 @@ def engine(url, save, op):
 								'"\t'+manufact[0]+","+sometimesIbreakThings[m][1][1]+"\t"+sometimesIbreakThings[m][2]+
 								"\t"+m+"\t"+sometimesIbreakThings[m][3]+"\t"+sometimesIbreakThings[m][4]+'\t"'+desc[0]+'"')
 						else:
-							row.append(manufact[0]+" "+sometimesIbreakThings[m][1][0]+"\t"+sometimesIbreakThings[m][1][0]+
+							row.append('"'+manufact[0]+" "+sometimesIbreakThings[m][1][0]+'"\t'+sometimesIbreakThings[m][1][0]+
 								"\t"+manufact[0]+"\t"+sometimesIbreakThings[m][1][1]+
 								"\t"+sometimesIbreakThings[m][2]+"\t"+m+"\t"+sometimesIbreakThings[m][3]+
 								"\t"+str(save)+"/"+str(productName[0])+"/images/"+
