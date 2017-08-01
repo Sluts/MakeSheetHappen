@@ -1,3 +1,3 @@
 # MakeSheetHappen
 Program will create a directory inside of the browsed directory.
-Heed this warning or suffer redundant directories.
+Heed this warning or suffer redundant directories (and james).
