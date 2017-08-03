@@ -58,7 +58,6 @@ def engine(url, save, op):
 						print(str(e))
 				if 'jpg' in s:
 					mainimgs.append(s)
-					#print(chop)
 					if op:
 						ur.urlretrieve(str(chop[0])+str(s.replace('&#46;', '.').replace('&#47;','/')), str(save)+
 							"/"+str(productName[0])+"/images/"+s.replace('/','').replace('&#46;', '.').replace('&#47;','-'))
@@ -137,43 +136,17 @@ def engine(url, save, op):
 						row.append('"'+manufact[0]+' '+sibt[m][1][0]+' '+vname+'"\t'+
 							str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
 							'\t\t\t'+depart.get()+'\t\t\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+'\t'+
-							manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+skuvar.get()+'\t'+sibt[m][2]+'\t'+
+							manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+skuvar.get()+'\t\''+sibt[m][2]+'\t'+
 							'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t\t'+ig+'\t\t'+sevar.get()+'\t\t'+
-							vname+'\t0\t'+m+'\t'+sibt[m][2]+'\t"'+
+							vname+'\t0\t'+m+'\t\''+sibt[m][2]+'\t"'+
 							desc[0]+'"\t'+sevar.get()+'\t'+desc[0]+'\t'+manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+
 							str(float(sibt[m][3])-(float(discount.get())*float(sibt[m][3])))+'\t'+
 							'\t'+sibt[m][3]+'\t\t\t\t'+inv.get()+'\tDisplayOrder\t\t'+
-							'\t\t\t1\t1\t0\t\t1\t'+ig+'\t\t\t\t'+
-							manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+
-							str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
-							str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
-							'\t0\t\0\0\0\t0\t0\t0\t0\t\t'+ig+'\t\t\t'+ig+'\t'+ig+'\t\t\t\t'+
-							paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')
+							'\t\t\t1\t1\t0\t\t1\t'+ig+'\t\t\t\t'+manufact[0]+' '+sibt[m][1][0]+' '+vname+
+							'\t\t\t\t0\t\0\0\0\t0\t0\t0\t0\t\t'+ig+'\t\t\t'+ig+'\t'+ig+'\t\t\t\t'+
+							paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')	
 					except Exception as e:
 						print(str(e))
-						
-							# row.append('"'+manufact[0]+' '+sibt[m][1][0]+' '+sibt[m][1][2]+
-								# '"\t"'+sibt[m][1][0]+' '+sibt[m][1][2]+
-								# '"\t'+manufact[0]+"\t"+sibt[m][1][1]+"\t"+sibt[m][2]+
-								# "\t"+m+"\t"+sibt[m][3]+'\t'+sibt[m][4]+'\t"'+desc[0]+'"')
-						# else:
-							# row.append('"'+manufact[0]+" "+sibt[m][1][0]+" "+sibt[m][1][2]+
-								# '"\t"'+sibt[m][1][0]+" "+sibt[m][1][2]+
-								# '"\t'+manufact[0]+"\t"+sibt[m][1][1]+"\t"+sibt[m][2]+
-								# "\t"+m+"\t"+sibt[m][3]+"\t"+str(save)+"/"+str(productName[0])+"/images/"+
-								# sibt[m][4]+'\t"'+desc[0]+'"')
-					# else:
-						# if sibt[m][4]== ' ':							
-							# row.append('"'+manufact[0]+" "+sibt[m][1][0]+" "+sibt[m][1][2]+
-								# '"\t"'+sibt[m][1][0]+" "+sibt[m][1][2]+
-								# '"\t'+manufact[0]+"\t"+sibt[m][1][1]+"\t"+sibt[m][2]+
-								# "\t"+m+"\t"+sibt[m][3]+"\t"+sibt[m][4]+'\t"'+desc[0]+'"')
-						# else:
-							# row.append('"'+manufact[0]+" "+sibt[m][1][0]+'"\t'+sibt[m][1][0]+
-								# "\t"+manufact[0]+"\t"+sibt[m][1][1]+
-								# "\t"+sibt[m][2]+"\t"+m+"\t"+sibt[m][3]+
-								# "\t"+str(save)+"/"+str(productName[0])+"/images/"+
-								# sibt[m][4]+'\t"'+desc[0]+'"')
 				else:
 					pass
 	# for c in sibt.keys():
@@ -196,6 +169,15 @@ def engine(url, save, op):
 		'AmazonImagePathAlt\tShipCost\tIdAmazonType\tExport\tPaintTypes\tSearchTerms\tUsedFor\t'+
 		'TargetAudiences\tTaxCode\tStartDate\tEndDate\tGUID\tHazardUnitsPerCase\t'+
 		'HazardCostPerCase\tStoreID\tColumn1\n')
+		
+	fh.write('\t'+str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
+		'\t\t\t'+depart.get()+'\t\t\t\t\t\t\t\t'+
+		'\t\t\t'+xml.get()+'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t\t\t\t\t\t\t0\t\t\t\t\t\t'+
+		'\t\t\t\t\t\t\t\tDisplayOrder\t\t\t\t\t1\t1\t0\t\t0\t\t\t\t\t\t'+
+		str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
+		str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
+		'\t0\t\0\0\0\t0\t0\t0\t0\t\t\t\t\t\t\t\t\t\t\t\t\t\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')
+	
 	for r in row:
 		#print(r+"\n")
 		try:
@@ -223,6 +205,7 @@ entryvar=StringVar()
 entry2var=StringVar()
 selectedDirectory=StringVar()
 depart=StringVar()
+depart.set("")
 skuvar=StringVar()
 xml=StringVar()
 inv=StringVar()
