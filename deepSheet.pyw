@@ -14,7 +14,7 @@ prices=[]
 images=[]
 row=[]
 variance={}
-sometimesIbreakThings={}
+sibt={}
 
 #url="https://www.macphersonart.com/product/137187/Artists-Watercolor.html"
 #url='https://www.macphersonart.com/product/149250/Neon-Leather-Paint.html'
@@ -67,6 +67,7 @@ def engine(url, save, op):
 	for d in divs:
 		if "<br/>" in d:
 			names.append(d.replace('<br/>', ' ').split(', '))
+			#print(names)
 		elif "itemNumColText" in d:
 			skus.append(d.replace(' ','')[27:])
 		else:
@@ -87,74 +88,120 @@ def engine(url, save, op):
 
 	for i in range(0,len(names)):		
 		#sku -> ean/upc, name, upc, list price
-		sometimesIbreakThings[skus[i]]=[upcs[i][1], names[i], upcs[i][0], prices[i]]
+		sibt[skus[i]]=[upcs[i][1], names[i], upcs[i][0], prices[i]]
 		
-	for sku in sometimesIbreakThings.keys():
+	for sku in sibt.keys():
 		for img in images:
 			if str(sku) in img:
-				sometimesIbreakThings[sku].append(img)
+				sibt[sku].append(img)
 				break
 				
 	for i in range(0,len(names)):
-		if len(sometimesIbreakThings[skus[i]]) <= 4:
-			sometimesIbreakThings[skus[i]].append(' ')
-		sometimesIbreakThings[skus[i]].append(manufact[0])
+		if len(sibt[skus[i]]) <= 4:
+			sibt[skus[i]].append(' ')
+		sibt[skus[i]].append(manufact[0])
 		
 		
-	for k in sometimesIbreakThings.keys():
-		if len(sometimesIbreakThings[k][1]) > 2:
-			#print(k+" -> "+str(sometimesIbreakThings[k])+"\n")
-			if not sometimesIbreakThings[k][1][2] in variance:
-				variance[sometimesIbreakThings[k][1][2]]=[sometimesIbreakThings[k][1][1]]
+	for k in sibt.keys():
+		if len(sibt[k][1]) > 2:
+			#print(k+" -> "+str(sibt[k])+"\n")
+			if not sibt[k][1][2] in variance:
+				variance[sibt[k][1][2]]=[sibt[k][1][1]]
 			else:
-				variance[sometimesIbreakThings[k][1][2]].append(sometimesIbreakThings[k][1][1])
+				variance[sibt[k][1][2]].append(sibt[k][1][1])
 		else:
-			#print(k+" -> "+str(sometimesIbreakThings[k])+"\n")
-			if not sometimesIbreakThings[k][1][0] in variance:
-				variance[sometimesIbreakThings[k][1][0]]=[sometimesIbreakThings[k][1][1]]
+			#print(k+" -> "+str(sibt[k])+"\n")
+			if not sibt[k][1][0] in variance:
+				variance[sibt[k][1][0]]=[sibt[k][1][1]]
 			else:
-				variance[sometimesIbreakThings[k][1][0]].append(sometimesIbreakThings[k][1][1])
+				variance[sibt[k][1][0]].append(sibt[k][1][1])
 
 	used=[]
-
+#sibt=[upc/ean, name, UPC, list price, img, manufact]
 	for c in variance.keys():
 		#print(c+" -> "+str(variance[c]))
-		for m in sometimesIbreakThings.keys():
-			if c in sometimesIbreakThings[m][1]:
+		for m in sibt.keys():
+			#print(sibt[m])
+			if c in sibt[m][1]:
 				if not m in used:
 					used.append(m)
-					if len(sometimesIbreakThings[m][1]) > 2:
-						if sometimesIbreakThings[m][4]== ' ':							
-							row.append('"'+manufact[0]+' '+sometimesIbreakThings[m][1][0]+' '+sometimesIbreakThings[m][1][2]+
-								'"\t"'+sometimesIbreakThings[m][1][0]+' '+sometimesIbreakThings[m][1][2]+
-								'"\t'+manufact[0]+"\t"+sometimesIbreakThings[m][1][1]+"\t"+sometimesIbreakThings[m][2]+
-								"\t"+m+"\t"+sometimesIbreakThings[m][3]+'\t'+sometimesIbreakThings[m][4]+'\t"'+desc[0]+'"')
-						else:
-							row.append('"'+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-								'"\t"'+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-								'"\t'+manufact[0]+"\t"+sometimesIbreakThings[m][1][1]+"\t"+sometimesIbreakThings[m][2]+
-								"\t"+m+"\t"+sometimesIbreakThings[m][3]+"\t"+str(save)+"/"+str(productName[0])+"/images/"+
-								sometimesIbreakThings[m][4]+'\t"'+desc[0]+'"')
+					if len(sibt[m][1]) > 2:
+						vname=sibt[m][1][2]
 					else:
-						if sometimesIbreakThings[m][4]== ' ':							
-							row.append('"'+manufact[0]+" "+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-								'"\t"'+sometimesIbreakThings[m][1][0]+" "+sometimesIbreakThings[m][1][2]+
-								'"\t'+manufact[0]+"\t"+sometimesIbreakThings[m][1][1]+"\t"+sometimesIbreakThings[m][2]+
-								"\t"+m+"\t"+sometimesIbreakThings[m][3]+"\t"+sometimesIbreakThings[m][4]+'\t"'+desc[0]+'"')
-						else:
-							row.append('"'+manufact[0]+" "+sometimesIbreakThings[m][1][0]+'"\t'+sometimesIbreakThings[m][1][0]+
-								"\t"+manufact[0]+"\t"+sometimesIbreakThings[m][1][1]+
-								"\t"+sometimesIbreakThings[m][2]+"\t"+m+"\t"+sometimesIbreakThings[m][3]+
-								"\t"+str(save)+"/"+str(productName[0])+"/images/"+
-								sometimesIbreakThings[m][4]+'\t"'+desc[0]+'"')
+						vname=sibt[m][1][1]
+					if sibt[m][4]== ' ':
+						ig=' '
+					else:
+						ig=str(save)+"/"+str(productName[0])+"/images/"+str(sibt[m][4])
+					try:		
+						row.append('"'+manufact[0]+' '+sibt[m][1][0]+' '+vname+'"\t'+
+							str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
+							'\t\t\t'+depart.get()+'\t\t\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+'\t'+
+							manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+skuvar.get()+'\t'+sibt[m][2]+'\t'+
+							'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t\t'+ig+'\t\t'+sevar.get()+'\t\t'+
+							vname+'\t0\t'+m+'\t'+sibt[m][2]+'\t"'+
+							desc[0]+'"\t'+sevar.get()+'\t'+desc[0]+'\t'+manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+
+							str(float(sibt[m][3])-(float(discount.get())*float(sibt[m][3])))+'\t'+
+							'\t'+sibt[m][3]+'\t\t\t\t'+inv.get()+'\tDisplayOrder\t\t'+
+							'\t\t\t1\t1\t0\t\t1\t'+ig+'\t\t\t\t'+
+							manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+
+							str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
+							str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
+							'\t0\t\0\0\0\t0\t0\t0\t0\t\t'+ig+'\t\t\t'+ig+'\t'+ig+'\t\t\t\t'+
+							paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')
+					except Exception as e:
+						print(str(e))
+						
+							# row.append('"'+manufact[0]+' '+sibt[m][1][0]+' '+sibt[m][1][2]+
+								# '"\t"'+sibt[m][1][0]+' '+sibt[m][1][2]+
+								# '"\t'+manufact[0]+"\t"+sibt[m][1][1]+"\t"+sibt[m][2]+
+								# "\t"+m+"\t"+sibt[m][3]+'\t'+sibt[m][4]+'\t"'+desc[0]+'"')
+						# else:
+							# row.append('"'+manufact[0]+" "+sibt[m][1][0]+" "+sibt[m][1][2]+
+								# '"\t"'+sibt[m][1][0]+" "+sibt[m][1][2]+
+								# '"\t'+manufact[0]+"\t"+sibt[m][1][1]+"\t"+sibt[m][2]+
+								# "\t"+m+"\t"+sibt[m][3]+"\t"+str(save)+"/"+str(productName[0])+"/images/"+
+								# sibt[m][4]+'\t"'+desc[0]+'"')
+					# else:
+						# if sibt[m][4]== ' ':							
+							# row.append('"'+manufact[0]+" "+sibt[m][1][0]+" "+sibt[m][1][2]+
+								# '"\t"'+sibt[m][1][0]+" "+sibt[m][1][2]+
+								# '"\t'+manufact[0]+"\t"+sibt[m][1][1]+"\t"+sibt[m][2]+
+								# "\t"+m+"\t"+sibt[m][3]+"\t"+sibt[m][4]+'\t"'+desc[0]+'"')
+						# else:
+							# row.append('"'+manufact[0]+" "+sibt[m][1][0]+'"\t'+sibt[m][1][0]+
+								# "\t"+manufact[0]+"\t"+sibt[m][1][1]+
+								# "\t"+sibt[m][2]+"\t"+m+"\t"+sibt[m][3]+
+								# "\t"+str(save)+"/"+str(productName[0])+"/images/"+
+								# sibt[m][4]+'\t"'+desc[0]+'"')
 				else:
 					pass
-	# for c in sometimesIbreakThings.keys():
-		#print(c+" -> "+str(sometimesIbreakThings[c]))
+	# for c in sibt.keys():
+		#print(c+" -> "+str(sibt[c]))
 	fh=open(str(save)+"/"+str(productName[0])+"/"+str(productName[0])+".xls","w+")
+	fh.write('ProductName\tProductType\tManufacturer\tDistributor\tCategory1\t'+
+		'Category2\tCategory3\tCategory4\tSection1\tSection2\tSection3\tSection4\t'+
+		'Summary\tDescription\tSEKeywords\tSEDescription\tSETitle\tSKU\tManufacturerPartNumber\t'+
+		'XmlPackage\tColWidth\tSalesPromptID\tPublished\tRequiresRegistration\tRelatedProducts\t'+
+		'MiscText\tTrackInventoryBySizeAndColor\tTrackInventoryBySize\tTrackInventoryByColor\t'+
+		'IsKit\tIsAPack\tPackSize\tImageFilenameOverride\tExtensionData\tSEAltText\treserved1\t'+
+		'VariantName\tVariantIsDefault\tVariantSkuSuffix\tVariantManufacturerPartNumber\t'+	
+		'VariantDescription\tVariantSeKeywords\tVariantSeDescription\tVariantSeTitle\tPrice\t'+
+		'PriceSale\tPriceMsrp\tPriceCost\tWeight\tDimensions\tInventory\tDisplayOrder\tColors\t'+
+		'ColorSKUModifiers\tSize\tSizeSkuModifier\tIsTaxable\tIsShipSeparately\tIsDownload\t'+
+		'DownloadLocation\tVariantPublished\tVariantImageFilenameOverride\tVariantExtensionData\t'+
+		'VariantSeAltText\tSpecialtyStore\tAmazonProdName\tProductBigImage\tProductImagePath\t'+
+		'ProductCode\tIsProp65\tProductSpecFile\tidAttrib\tidProdAttrib\tAttribType\t'+
+		'AttribCode\tAttribName\tThumbImage\tAttribImagePath\tAttribSpecFile\tAmazonImagePath\t'+
+		'AmazonImagePathAlt\tShipCost\tIdAmazonType\tExport\tPaintTypes\tSearchTerms\tUsedFor\t'+
+		'TargetAudiences\tTaxCode\tStartDate\tEndDate\tGUID\tHazardUnitsPerCase\t'+
+		'HazardCostPerCase\tStoreID\tColumn1\n')
 	for r in row:
 		#print(r+"\n")
-		fh.write(r+"\n")
+		try:
+			fh.write(r)
+		except Exception as e:
+			print(str(e))
 	fh.close()
 	done()
 
@@ -170,31 +217,71 @@ def browse():
 	entry2var.set(selectedDirectory.get())
 	
 sheet=Tk()
-#sheet.iconbitmap(sheet, default="idk.ico")
+sheet.iconbitmap(sheet, default="idk.ico")
 sheet.wm_title("You're in Deep Sheet")
 entryvar=StringVar()
 entry2var=StringVar()
 selectedDirectory=StringVar()
+depart=StringVar()
+skuvar=StringVar()
+xml=StringVar()
+inv=StringVar()
+discount=StringVar()
+sevar=StringVar()
+ptype=StringVar()
+paint=StringVar()
+ptype.set("1")
+distributor=StringVar()
+distributor.set('Rochester Art Supply')
 imagevar=IntVar()
 
 label=ttk.Label(sheet, text="URL")
-label.grid(row=0, column=0)
+label.grid(row=0, column=0, sticky=E)
 entry=ttk.Entry(sheet, textvariable=entryvar, width=30)
-entry.grid(row=0, column=1, columnspan=2, sticky=W)
-label2=ttk.Label(sheet, text="idk")
-#label2.grid(row=1, column=0)
+entry.grid(row=0, column=1)
+label2=ttk.Label(sheet, text="Department")
+label2.grid(row=3, column=0, sticky=E)
+entry3=Entry(sheet, textvariable=depart, width=30)
+entry3.grid(row=3, column=1)
 button1=ttk.Button(sheet, text="Make Sheet", command=lambda:engine(entryvar.get(), entry2var.get(), imagevar.get()))
-button1.grid(row=4, column=2)
+button1.grid(row=0, column=5)
 button2=ttk.Button(sheet, text="browse", command=browse)
 button2.grid(row=1, column=0)
 label3=ttk.Label(sheet, text="Save images?")
-label3.grid(row=3, column=0)
-radio=ttk.Radiobutton(sheet, variable=imagevar, text="yes", value=1)
-radio.grid(row=3, column=1)
+label3.grid(row=5, column=0)
+radio=ttk.Radiobutton(sheet, variable=imagevar, text="yes", value=1)	
+radio.grid(row=5, column=1)
 radio2=ttk.Radiobutton(sheet, variable=imagevar, text="no", value=0)
-radio2.grid(row=3, column=2)
+radio2.grid(row=5, column=2)
 labelfin=ttk.Label(sheet, text="Ready...")
-labelfin.grid(row=4, column=1)
-
+labelfin.grid(row=0, column=4)
+spin1=Spinbox(sheet, from_=0, to=10, textvariable=ptype)
+spin1.grid(row=1, column=3)
+label4=ttk.Label(sheet, text="Product Type")
+label4.grid(row=1, column=2, sticky=E)
+label5=ttk.Label(sheet, text="XML Package")
+label5.grid(row=0, column=2, sticky=E)
+option1=ttk.OptionMenu(sheet, xml, "pack1", "pack1", "pack2", "pack3", "pack4")
+option1.grid(row=0, column=3, columnspan=2)
+label6=ttk.Label(sheet, text="Sku")
+label6.grid(row=2, column=2, sticky=E)
+entry4=ttk.Entry(sheet, textvariable=skuvar)
+entry4.grid(row=2, column=3)
+label7=ttk.Label(sheet, text="Discount")
+label7.grid(row=3, column=2, sticky=E)
+option2=ttk.OptionMenu(sheet, discount, "0", "0", ".10", ".15", ".20", ".25", ".30", ".40", ".45", ".50", ".55", ".60", ".65", ".70", ".75", ".80", ".85", ".90")
+option2.grid(row=3, column=3, columnspan=2)
+label8=ttk.Label(sheet, text="SEKeywords")
+label8.grid(row=2, column=0, sticky=E)
+entry5=ttk.Entry(sheet, textvariable=sevar, width=30)
+entry5.grid(row=2, column=1)
+label9=ttk.Label(sheet, text="Inventory")
+label9.grid(row=4, column=0, sticky=E)
+entry6=ttk.Entry(sheet, textvariable=inv, width=30)
+entry6.grid(row=4, column=1)
+label10=ttk.Label(sheet, text="Paint Type")
+label10.grid(row=4, column=2, sticky=E)
+entry7=ttk.OptionMenu(sheet, paint, "", " ", "Oil", "Acrylic", "Specialty", "Watercolor", "Pastel", "Enkaustic")
+entry7.grid(row=4, column=3)
 
 sheet.mainloop()
