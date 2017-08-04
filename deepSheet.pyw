@@ -170,7 +170,7 @@ def engine(url, save, op):
 		'TargetAudiences\tTaxCode\tStartDate\tEndDate\tGUID\tHazardUnitsPerCase\t'+
 		'HazardCostPerCase\tStoreID\tColumn1\n')
 		
-	fh.write('\t'+str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
+	fh.write(manufact[0]+' '+productName[0]+'\t'+str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
 		'\t\t\t'+depart.get()+'\t\t\t\t\t\t\t\t'+
 		'\t\t\t'+xml.get()+'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t\t\t\t\t\t\t0\t\t\t\t\t\t'+
 		'\t\t\t\t\t\t\t\tDisplayOrder\t\t\t\t\t1\t1\t0\t\t0\t\t\t\t\t\t'+
@@ -193,10 +193,7 @@ def done():
 
 def browse():
 	filename = filedialog.askdirectory(initialdir='.')
-	selectedDirectory.set(filename)
-	entry2=ttk.Entry(sheet, textvariable=entry2var, width=len(filename)+5)
-	entry2.grid(row=1, column=1)
-	entry2var.set(selectedDirectory.get())
+	entry2var.set(filename)
 	
 sheet=Tk()
 sheet.iconbitmap(sheet, default="idk.ico")
@@ -224,10 +221,10 @@ entry=ttk.Entry(sheet, textvariable=entryvar, width=30)
 entry.grid(row=0, column=1)
 label2=ttk.Label(sheet, text="Department")
 label2.grid(row=3, column=0, sticky=E)
-entry3=Entry(sheet, textvariable=depart, width=30)
+entry3=ttk.Entry(sheet, textvariable=depart, width=30)
 entry3.grid(row=3, column=1)
 button1=ttk.Button(sheet, text="Make Sheet", command=lambda:engine(entryvar.get(), entry2var.get(), imagevar.get()))
-button1.grid(row=0, column=5)
+button1.grid(row=0, column=6)
 button2=ttk.Button(sheet, text="browse", command=browse)
 button2.grid(row=1, column=0)
 label3=ttk.Label(sheet, text="Save images?")
@@ -237,8 +234,8 @@ radio.grid(row=5, column=1)
 radio2=ttk.Radiobutton(sheet, variable=imagevar, text="no", value=0)
 radio2.grid(row=5, column=2)
 labelfin=ttk.Label(sheet, text="Ready...")
-labelfin.grid(row=0, column=4)
-spin1=Spinbox(sheet, from_=0, to=10, textvariable=ptype)
+labelfin.grid(row=0, column=5)
+spin1=Spinbox(sheet, from_=0, to=10, textvariable=ptype, width=9)
 spin1.grid(row=1, column=3)
 label4=ttk.Label(sheet, text="Product Type")
 label4.grid(row=1, column=2, sticky=E)
@@ -248,7 +245,7 @@ option1=ttk.OptionMenu(sheet, xml, "pack1", "pack1", "pack2", "pack3", "pack4")
 option1.grid(row=0, column=3, columnspan=2)
 label6=ttk.Label(sheet, text="Sku")
 label6.grid(row=2, column=2, sticky=E)
-entry4=ttk.Entry(sheet, textvariable=skuvar)
+entry4=ttk.Entry(sheet, textvariable=skuvar, width=10)
 entry4.grid(row=2, column=3)
 label7=ttk.Label(sheet, text="Discount")
 label7.grid(row=3, column=2, sticky=E)
@@ -266,5 +263,10 @@ label10=ttk.Label(sheet, text="Paint Type")
 label10.grid(row=4, column=2, sticky=E)
 entry7=ttk.OptionMenu(sheet, paint, "", " ", "Oil", "Acrylic", "Specialty", "Watercolor", "Pastel", "Enkaustic")
 entry7.grid(row=4, column=3)
+entry2=ttk.Entry(sheet, textvariable=entry2var, width=30)
+entry2.grid(row=1, column=1)
+
+
+
 
 sheet.mainloop()
