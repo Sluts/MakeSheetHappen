@@ -118,14 +118,14 @@ def engine(url, save, op):
 	used=[]
 #sibt=[upc/ean, name, UPC, list price, img, manufact]
 	for c in variance.keys():
-		#print(c+" -> "+str(variance[c]))
+		print(c+" -> "+str(variance[c]))
 		for m in sibt.keys():
-			#print(sibt[m])
+			print(sibt[m])
 			if c in sibt[m][1]:
 				if not m in used:
 					used.append(m)
 					if len(sibt[m][1]) > 2:
-						vname=sibt[m][1][2]
+						vname=sibt[m][1][2]+' '+sibt[m][1][1]
 					else:
 						vname=sibt[m][1][1]
 					if sibt[m][4]== ' ':
@@ -133,17 +133,17 @@ def engine(url, save, op):
 					else:
 						ig=str(save)+"/"+str(productName[0])+"/images/"+str(sibt[m][4])
 					try:		
-						row.append('"'+manufact[0]+' '+sibt[m][1][0]+' '+vname+'"\t'+
+						row.append('"'+manufact[0]+' '+sibt[m][1][0]+'"\t'+
 							str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
 							'\t\t\t'+depart.get()+'\t\t\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+'\t'+
-							manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+skuvar.get()+'\t\''+sibt[m][2]+'\t'+
-							'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t\t'+ig+'\t\t'+sevar.get()+'\t\t'+
-							vname+'\t0\t'+m+'\t\''+sibt[m][2]+'\t"'+
+							manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+skuvar.get()+'\t'+sibt[m][2]+'\t'+
+							'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t0\t'+ig+'\t\t'+manufact[0]+' '+sibt[m][1][0]+'\t\t'+
+							vname+'\t0\t'+m+'\t'+sibt[m][2]+'\t"'+
 							desc[0]+'"\t'+sevar.get()+'\t'+desc[0]+'\t'+manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+
-							str(float(sibt[m][3])-(float(discount.get())*float(sibt[m][3])))+'\t'+
-							'\t'+sibt[m][3]+'\t\t\t\t'+inv.get()+'\tDisplayOrder\t\t'+
-							'\t\t\t1\t1\t0\t\t1\t'+ig+'\t\t\t\t'+manufact[0]+' '+sibt[m][1][0]+' '+vname+
-							'\t\t\t\t0\t\0\0\0\t0\t0\t0\t0\t\t'+ig+'\t\t\t'+ig+'\t'+ig+'\t\t\t\t'+
+							str(float(sibt[m][3])-(float(discount.get())*float(sibt[m][3])))+'\t0'+
+							'\t'+sibt[m][3]+'\t0\t0\t\t'+inv.get()+'\t\t\t'+
+							'\t\t\t0\t0\t0\t\t1\t'+ig+'\t\t\t\t'+manufact[0]+' '+sibt[m][1][0]+' '+vname+
+							'\t\t\t\t0\t\t\t\t0\t\t\t'+ig+'\t\t\t'+ig+'\t'+ig+'\t0\t0\t\t'+
 							paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')	
 					except Exception as e:
 						print(str(e))
@@ -171,12 +171,16 @@ def engine(url, save, op):
 		'HazardCostPerCase\tStoreID\tColumn1\n')
 		
 	fh.write(manufact[0]+' '+productName[0]+'\t'+str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
-		'\t\t\t'+depart.get()+'\t\t\t\t\t\t\t\t'+
-		'\t\t\t'+xml.get()+'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t\t\t\t\t\t\t0\t\t\t\t\t\t'+
-		'\t\t\t\t\t\t\t\tDisplayOrder\t\t\t\t\t1\t1\t0\t\t0\t\t\t\t\t\t'+
-		str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
-		str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
-		'\t0\t\0\0\0\t0\t0\t0\t0\t\t\t\t\t\t\t\t\t\t\t\t\t\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')
+		'\t\t\t'+depart.get()+'\t\t\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+
+		'\t'+manufact[0]+' '+productName[0]+'\t'+skuvar.get()+'\t\t'+xml.get()+'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t0\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
+		'\t\t'+manufact[0]+' '+productName[0]+'\t\t\t0\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+'\t'+
+		manufact[0]+' '+productName[0]+'\t\t0\t\t0\t0\t\t'+inv.get()+'\t\t\t\t\t\t0\t0\t0\t\t1\t'+
+		'\t\t\t\t'+manufact[0]+' '+productName[0]+'\t'+
+		str(save)+"/"+str(productName[0])+"/images/"+mainimgs[1].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
+		'\t0\t\t\t\t0\t\t\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
+		'\t\t\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
+		'\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
+		'\t0\t0\t\t'+paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')
 	
 	for r in row:
 		#print(r+"\n")
@@ -196,7 +200,7 @@ def browse():
 	entry2var.set(filename)
 	
 sheet=Tk()
-sheet.iconbitmap(sheet, default="idk.ico")
+#sheet.iconbitmap(sheet, default="idk.ico")
 sheet.wm_title("You're in Deep Sheet")
 entryvar=StringVar()
 entry2var=StringVar()
@@ -241,7 +245,7 @@ label4=ttk.Label(sheet, text="Product Type")
 label4.grid(row=1, column=2, sticky=E)
 label5=ttk.Label(sheet, text="XML Package")
 label5.grid(row=0, column=2, sticky=E)
-option1=ttk.OptionMenu(sheet, xml, "pack1", "pack1", "pack2", "pack3", "pack4")
+option1=ttk.OptionMenu(sheet, xml, "Product.VariantsInTableORderFormrf.xml.config", "Product.VariantsInTableORderFormrf.xml.config", "Product.NoVariantRf.Xml.Config", "Product.NoVariantRf2.Xml.Config", "pack4")
 option1.grid(row=0, column=3, columnspan=2)
 label6=ttk.Label(sheet, text="Sku")
 label6.grid(row=2, column=2, sticky=E)
@@ -261,7 +265,7 @@ entry6=ttk.Entry(sheet, textvariable=inv, width=30)
 entry6.grid(row=4, column=1)
 label10=ttk.Label(sheet, text="Paint Type")
 label10.grid(row=4, column=2, sticky=E)
-entry7=ttk.OptionMenu(sheet, paint, "", " ", "Oil", "Acrylic", "Specialty", "Watercolor", "Pastel", "Enkaustic")
+entry7=ttk.OptionMenu(sheet, paint, "", " ", "Oil", "Acrylic", "Specialty", "Watercolor", "Pastel", "Enkaustic", "Leather")
 entry7.grid(row=4, column=3)
 entry2=ttk.Entry(sheet, textvariable=entry2var, width=30)
 entry2.grid(row=1, column=1)
