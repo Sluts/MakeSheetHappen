@@ -118,14 +118,14 @@ def engine(url, save, op):
 	used=[]
 #sibt=[upc/ean, name, UPC, list price, img, manufact]
 	for c in variance.keys():
-		print(c+" -> "+str(variance[c]))
+		#print(c+" -> "+str(variance[c]))
 		for m in sibt.keys():
-			print(sibt[m])
+			#print(sibt[m])
 			if c in sibt[m][1]:
 				if not m in used:
 					used.append(m)
 					if len(sibt[m][1]) > 2:
-						vname=sibt[m][1][2]
+						vname=sibt[m][1][2]+' '+sibt[m][1][1]
 					else:
 						vname=sibt[m][1][1]
 					if sibt[m][4]== ' ':
@@ -135,15 +135,15 @@ def engine(url, save, op):
 					try:		
 						row.append('"'+manufact[0]+' '+sibt[m][1][0]+'"\t'+
 							str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
-							'\t\t\t'+depart.get()+'\t\t\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+'\t'+manufact[0]+' '+sibt[m][1][0]+
-							manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+skuvar.get()+'\t\''+sibt[m][2]+'\t'+
+							'\t\t\t'+depart.get()+'\t\t\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+'\t'+
+							manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+skuvar.get()+'\t'+sibt[m][2]+'\t'+
 							'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t0\t'+ig+'\t\t'+manufact[0]+' '+sibt[m][1][0]+'\t\t'+
-							vname+'\t0\t'+m+'\t\''+sibt[m][2]+'\t"'+
+							vname+'\t0\t'+m+'\t'+sibt[m][2]+'\t"'+
 							desc[0]+'"\t'+sevar.get()+'\t'+desc[0]+'\t'+manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+
 							str(float(sibt[m][3])-(float(discount.get())*float(sibt[m][3])))+'\t0'+
 							'\t'+sibt[m][3]+'\t0\t0\t\t'+inv.get()+'\t\t\t'+
 							'\t\t\t0\t0\t0\t\t1\t'+ig+'\t\t\t\t'+manufact[0]+' '+sibt[m][1][0]+' '+vname+
-							'\t\t\t\t0\t\t\t\t0\t\t\t'+ig+'\t\t\t'+ig+'\t'+ig+'\t0\t0\t'+
+							'\t\t\t\t0\t\t\t\t0\t\t\t'+ig+'\t\t\t'+ig+'\t'+ig+'\t0\t0\t\t'+
 							paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')	
 					except Exception as e:
 						print(str(e))
@@ -171,15 +171,14 @@ def engine(url, save, op):
 		'HazardCostPerCase\tStoreID\tColumn1\n')
 		
 	fh.write(manufact[0]+' '+productName[0]+'\t'+str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
-		'\t\t\t'+depart.get()+'\t\t\t\t\t\t\t\t'+
-		'\t\t\t'+xml.get()+'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t0\t\t\t\t\t\t0\t\t\t\t\t\t'+
-		'\t\t0\t\t0\t0\t\t'+inv.get()+'\t\t\t\t\t\t0\t0\t0\t\t1\t'+
-		str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
-		'\t\t'+manufact[0]+' '+productName[0]+'\t\t'+manufact[0]+' '+productName[0]+'\t'+
-		str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
-		str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
-		'\t0\t\t\t\t0\t0\t\t\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
-		'\t\t\t\t\t\t\t\t\t\t\t\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')
+		'\t\t\t'+depart.get()+'\t\t\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+
+		'\t'+manufact[0]+' '+productName[0]+'\t'+skuvar.get()+'\t\t'+xml.get()+'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t0\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
+		'\t\t'+manufact[0]+' '+productName[0]+'\t\t\t0\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+'\t'+
+		manufact[0]+' '+productName[0]+'\t\t0\t\t0\t0\t\t'+inv.get()+'\t\t\t\t\t\t0\t0\t0\t\t1\t'+
+		'\t\t\t\t'+manufact[0]+' '+productName[0]+'\t'+
+		str(save)+"/"+str(productName[0])+"/images/"+mainimgs[1].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
+		'\t\t0\t\t\t\t0\t\t\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
+		'\t\t\t\t\t0\t0\t\t'+paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')
 	
 	for r in row:
 		#print(r+"\n")
