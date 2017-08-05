@@ -118,9 +118,9 @@ def engine(url, save, op):
 	used=[]
 #sibt=[upc/ean, name, UPC, list price, img, manufact]
 	for c in variance.keys():
-		print(c+" -> "+str(variance[c]))
+		#print(c+" -> "+str(variance[c]))
 		for m in sibt.keys():
-			print(sibt[m])
+			#print(sibt[m])
 			if c in sibt[m][1]:
 				if not m in used:
 					used.append(m)
@@ -177,10 +177,8 @@ def engine(url, save, op):
 		manufact[0]+' '+productName[0]+'\t\t0\t\t0\t0\t\t'+inv.get()+'\t\t\t\t\t\t0\t0\t0\t\t1\t'+
 		'\t\t\t\t'+manufact[0]+' '+productName[0]+'\t'+
 		str(save)+"/"+str(productName[0])+"/images/"+mainimgs[1].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
-		'\t0\t\t\t\t0\t\t\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
-		'\t\t\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
-		'\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
-		'\t0\t0\t\t'+paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')
+		'\t\t0\t\t\t\t0\t\t\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
+		'\t\t\t\t\t0\t0\t\t'+paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')
 	
 	for r in row:
 		#print(r+"\n")
