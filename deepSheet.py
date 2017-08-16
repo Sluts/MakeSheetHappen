@@ -33,7 +33,6 @@ def engine(url, save, op):
 	productName=re.findall(r'<div class="familyTitle">(.*?)</div>', data)
 	manufact=re.findall(r'<div class=\"millDescription\">[ \n \v \r\n]*.*?>(.*?)</a>', data)
 	mainimgs=[]
-	
 	labelfin['text']="Working..."
 	
 	if not os.path.exists(str(save)+"/"+str(productName[0])+"/images"):
@@ -47,7 +46,7 @@ def engine(url, save, op):
 		src=re.findall(r'href="(.*?)"',i)
 		for s in src:
 			if "catimg" in s:
-				if 'png' in s:
+				if 'png' in s.lower():
 					try:
 						images.append(s[14:-3]+"jpg")
 						if op:
@@ -56,7 +55,7 @@ def engine(url, save, op):
 							#copyfile(str(save)+"/"+str(productName[0])+"/images/"+s[14:],str(save)+"/"+str(productName[0])+"/images/"+s[14:-3]+"jpg")
 					except Exception as e:
 						print(str(e))
-				if 'jpg' in s:
+				if 'jpg' in s.lower():
 					mainimgs.append(s)
 					if op:
 						ur.urlretrieve(str(chop[0])+str(s.replace('&#46;', '.').replace('&#47;','/')), str(save)+
@@ -125,24 +124,39 @@ def engine(url, save, op):
 				if not m in used:
 					used.append(m)
 					if len(sibt[m][1]) > 2:
-						vname=sibt[m][1][2]+' '+sibt[m][1][1]
+						#vname=sibt[m][1][2]+' '+sibt[m][1][1]
+						vname=sibt[m][1][2]
+						if '- peggable' in vname.lower():
+							vname=vname[:vname.lower().find('- p')]
+						sizeholder=sibt[m][1][1]
 					else:
 						vname=sibt[m][1][1]
+						if '- peggable' in vname.lower():
+							vname=vname[:vname.lower().find('- p')]
+						sizeholder=''
 					if sibt[m][4]== ' ':
 						ig=' '
 					else:
 						ig=str(save)+"/"+str(productName[0])+"/images/"+str(sibt[m][4])
-					try:		
+					if "NoVariant" in xml.get():
+						xmlholder=xml.get()
+					else:
+						xmlholder=''
+					try:
+						# print(len(manufact))
+						# print(len(productName))
+						# print(len(mainimgs))
+						# print(len(desc))
 						row.append('"'+manufact[0]+' '+sibt[m][1][0]+'"\t'+
 							str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
 							'\t\t\t'+depart.get()+'\t\t\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+'\t'+
-							manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+skuvar.get()+'\t'+sibt[m][2]+'\t'+
+							manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+skuvar.get()+'\t'+sibt[m][2]+'\t'+xmlholder+
 							'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t0\t'+ig+'\t\t'+manufact[0]+' '+sibt[m][1][0]+'\t\t'+
-							vname+'\t0\t'+m+'\t'+sibt[m][2]+'\t"'+
+							vname+'\t0\t'+m[2:]+'\t'+sibt[m][2]+'\t"'+
 							desc[0]+'"\t'+sevar.get()+'\t'+desc[0]+'\t'+manufact[0]+' '+sibt[m][1][0]+' '+vname+'\t'+
 							str(float(sibt[m][3])-(float(discount.get())*float(sibt[m][3])))+'\t0'+
 							'\t'+sibt[m][3]+'\t0\t0\t\t'+inv.get()+'\t\t\t'+
-							'\t\t\t0\t0\t0\t\t1\t'+ig+'\t\t\t\t'+manufact[0]+' '+sibt[m][1][0]+' '+vname+
+							'\t'+sizeholder+'\t\t0\t0\t0\t\t1\t'+ig+'\t\t\t\t'+manufact[0]+' '+sibt[m][1][0]+' '+vname+
 							'\t\t\t\t0\t\t\t\t0\t\t\t'+ig+'\t\t\t'+ig+'\t'+ig+'\t0\t0\t\t'+
 							paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')	
 					except Exception as e:
@@ -169,17 +183,21 @@ def engine(url, save, op):
 		'AmazonImagePathAlt\tShipCost\tIdAmazonType\tExport\tPaintTypes\tSearchTerms\tUsedFor\t'+
 		'TargetAudiences\tTaxCode\tStartDate\tEndDate\tGUID\tHazardUnitsPerCase\t'+
 		'HazardCostPerCase\tStoreID\tColumn1\n')
+	if xmlholder=='':
+		# print(len(manufact))
+		# print(len(productName))
+		# print(len(mainimgs))
+		# print(len(desc))
+		fh.write(manufact[0]+' '+productName[0]+'\t'+str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
+			'\t\t\t'+depart.get()+'\t\t\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+
+			'\t'+manufact[0]+' '+productName[0]+'\t'+skuvar.get()+'\t\t'+xml.get()+'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t0\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
+			'\t\t'+manufact[0]+' '+productName[0]+'\t\t\t0\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+'\t'+
+			manufact[0]+' '+productName[0]+'\t\t0\t\t0\t0\t\t'+inv.get()+'\t\t\t\t\t\t0\t0\t0\t\t1\t'+
+			'\t\t\t\t'+manufact[0]+' '+productName[0]+'\t'+
+			str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
+			'\t\t0\t\t\t\t0\t\t\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
+			'\t\t\t\t\t0\t0\t\t'+paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')
 		
-	fh.write(manufact[0]+' '+productName[0]+'\t'+str(ptype.get())+'\t'+manufact[0]+'\t'+distributor.get()+'\t'+depart.get()+'\t'+
-		'\t\t\t'+depart.get()+'\t\t\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+
-		'\t'+manufact[0]+' '+productName[0]+'\t'+skuvar.get()+'\t\t'+xml.get()+'\t0\t0\t1\t0\t\t\t0\t0\t0\t0\t0\t0\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
-		'\t\t'+manufact[0]+' '+productName[0]+'\t\t\t0\t\t\t'+desc[0]+'\t'+sevar.get()+'\t'+desc[0]+'\t'+
-		manufact[0]+' '+productName[0]+'\t\t0\t\t0\t0\t\t'+inv.get()+'\t\t\t\t\t\t0\t0\t0\t\t1\t'+
-		'\t\t\t\t'+manufact[0]+' '+productName[0]+'\t'+
-		str(save)+"/"+str(productName[0])+"/images/"+mainimgs[1].replace('/','').replace('&#46;', '.').replace('&#47;','-')+'\t'+
-		'\t\t0\t\t\t\t0\t\t\t'+str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')+
-		'\t\t\t\t\t0\t0\t\t'+paint.get()+'\t'+sevar.get()+'\t\tArtist\'s\tA_GEN_TAX\t\t\t\t\t\t\t\t\n')
-	
 	for r in row:
 		#print(r+"\n")
 		try:
