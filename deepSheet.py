@@ -135,7 +135,8 @@ def engine(url, save, op):
 							vname=vname[:vname.lower().find('- p')]
 						sizeholder=''
 					if sibt[m][4]== ' ':
-						ig=' '
+						#ig=' '
+						ig=str(save)+"/"+str(productName[0])+"/images/"+mainimgs[0].replace('/','').replace('&#46;', '.').replace('&#47;','-')
 					else:
 						ig=str(save)+"/"+str(productName[0])+"/images/"+str(sibt[m][4])
 					if "NoVariant" in xml.get():
